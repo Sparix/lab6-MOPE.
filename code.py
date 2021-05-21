@@ -5,10 +5,10 @@ p = 0.95
 N = 15
 x1_min = 10
 x1_max = 40
-x2_min = 25
-x2_max = 45
-x3_min = 40
-x3_max = 45
+x2_min = 15
+x2_max = 50
+x3_min = 10
+x3_max = 30
 x01 = (x1_max + x1_min) / 2
 x02 = (x2_max + x2_min) / 2
 x03 = (x3_max + x3_min) / 2
@@ -50,8 +50,8 @@ class Perevirku:
 def generate_matrix():
     def f(X1, X2, X3):
         from random import randrange
-        y = 6.7 + 9.1 * X1 + 1.6 * X2 + 9.1 * X3 + 3.3 * X1 * X1 + 0.2 * X2 * X2 + 6.1 * X3 * X3 + 8.5 * X1 * X2 + \
-            0.7 * X1 * X3 + 6.6 * X2 * X3 + 8.1 * X1 * X2 * X3 + randrange(0, 10) - 5
+        y = 1.7+ 4.9 * X1 + 2.5 * X2 +3.4 * X3 + 6.3 * X1 * X1 + 1.0 * X2 * X2 +1.2 * X3 * X3 + 4.8 * X1 * X2+0.1* X1\
+            * X3 + 2.0 * X2 * X3 + 0.5 * X1 * X2 * X3 + randrange(0, 10) - 5
         return y
 
     matrix_with_y = [[f(matrix_x[j][0], matrix_x[j][1], matrix_x[j][2]) for i in range(m)] for j in range(N)]
@@ -236,7 +236,6 @@ def run_experiment():
 
         dispersion_b2 = sum(dispersion_y) / (N * N * m)
         student_lst = list(student_test(beta))
-        time1 = time.time()
         print("Отримане рівняння регресії з урахуванням критерія Стьюдента")
         print("{:.3f} + {:.3f} * X1 + {:.3f} * X2 + {:.3f} * X3 + {:.3f} * Х1X2 + {:.3f} * Х1X3 + {:.3f} * Х2X3"
               "+ {:.3f} * Х1Х2X3 + {:.3f} * X11^2 + {:.3f} * X22^2 + {:.3f} * X33^2 = ŷ\n\tПеревірка"
