@@ -24,8 +24,21 @@ d = None
 q = None
 f3 = None
 
+def timeit(func):
+    def wrapper(*args, **kwargs):
+        start = time()
+        result = func(*args, **kwargs)
+        end = (time() - start) * 1000
+        print("-" * 20)
+        print(f'Час знаходження: {end:} мс')
+        print("-" * 20)
+        return result
+
+    return wrapper
+
 
 class Perevirku:
+    @timeit
     def get_cohren_value(self, size_of_selections, qty_of_selections, significance):
         from _pydecimal import Decimal
         from scipy.stats import f
@@ -36,11 +49,13 @@ class Perevirku:
         result = fisher / (fisher + (size_of_selections - 1 - 1))
         return Decimal(result).quantize(Decimal('.0001')).__float__()
 
+    @timeit
     def get_student_value(f3, significance):
         from _pydecimal import Decimal
         from scipy.stats import t
         return Decimal(abs(t.ppf(significance / 2, f3))).quantize(Decimal('.0001')).__float__()
 
+    @timeit
     def get_fisher_value(f3, f4, significance):
         from _pydecimal import Decimal
         from scipy.stats import f
@@ -119,7 +134,6 @@ def student_test(b_lst, number_x=10):
         if fabs(t_practice / dispersion_b) < t_theoretical:
             b_lst[column] = 0
     return b_lst
-
 
 def fisher_test():
     dispersion_ad = 0
@@ -253,7 +267,6 @@ def run_experiment():
             print("Рівняння регресії неадекватне  оригіналу\n\t Проводимо експеремент повторно")
     return adekvat
 
-
 if __name__ == '__main__':
     start = time.time()
     cnt = 0
@@ -266,5 +279,3 @@ if __name__ == '__main__':
             adekvat += run_experiment()
         except Exception:
             continue
-
-    print(f'За 10 секунд експеремент був адекватним {adekvat} разів з {cnt}')
